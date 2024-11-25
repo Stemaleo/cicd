@@ -10,18 +10,23 @@ jobs:
       # Step 1: Checkout the repository
       - uses: actions/checkout@v2
 
-      # Step 2: Install Python dependencies
-      - name: Install dependencies
+      # Step 2: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install -r requirements.txt
 
-      # Step 3: Run the test script
+      # Step 3: Install CML
+      - name: Install CML
+        run: |
+          npm install -g git+https://github.com/iterative/cml.git
+
+      # Step 4: Run the test script
       - name: Run the test script
         run: |
           python wine_linear_regression_test.py
           cat metrics.txt
 
-      # Step 4: Generate a report and send a comment
+      # Step 5: Generate report and post comment
       - name: Generate report and post comment
         run: |
           cat metrics.txt >> report.md
