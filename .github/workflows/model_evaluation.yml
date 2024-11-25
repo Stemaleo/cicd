@@ -1,35 +1,28 @@
 name: model-training
+
 on: [push]
 
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
       # Step 1: Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
-      # Step 2: Set up Python and install dependencies
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-
-      - name: Install Python dependencies
+      # Step 2: Install Python dependencies
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 3: Explicitly install CML CLI using npm
-      - name: Install CML
-        run: npm install -g @iterative/cml
+      # Step 3: Run the test script
+      - name: Run the test script
+        run: |
+          python wine_linear_regression_test.py
+          cat metrics.txt
 
-      # Step 4: Run the model test script
-      - name: Run Model Training
-        run: python wine_linear_regression_test.py
-
-      # Step 5: Generate and Post Metrics
-      - name: Generate and Post Metrics
+      # Step 4: Generate a report and send a comment
+      - name: Generate report and post comment
         run: |
           cat metrics.txt >> report.md
           cml-send-comment report.md
