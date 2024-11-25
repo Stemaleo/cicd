@@ -6,28 +6,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Step 1: Checkout the repository
-      - uses: actions/checkout@v2
-      
-      # Step 2: Set up CML
-      - uses: iterative/setup-cml@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # Step 3: Install Python dependencies
-      - name: Install dependencies
+      # Step 2: Set up Python and install dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Step 3: Install CML using Iterative's setup-cml action
+      - name: Set up CML
+        uses: iterative/setup-cml@v2
+
       # Step 4: Run the model test script
       - name: Run Model Training
-        run: |
-          python wine_linear_regression_test.py
+        run: python wine_linear_regression_test.py
 
-      # Step 5: Display the metrics
-      - name: Display metrics
-        run: cat metrics.txt
-
-      # Step 6: Generate and Send Report
-      - name: Generate and Send Report
+      # Step 5: Generate and post metrics report
+      - name: Generate and Post Metrics
         run: |
           cat metrics.txt >> report.md
           cml-send-comment report.md
