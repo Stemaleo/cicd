@@ -8,7 +8,7 @@ jobs:
       # Step 1: Checkout the repository
       - uses: actions/checkout@v2
       
-      # Step 2: Set up CML using the official GitHub Action
+      # Step 2: Set up CML
       - uses: iterative/setup-cml@v2
 
       # Step 3: Install Python dependencies
@@ -26,7 +26,7 @@ jobs:
       - name: Display metrics
         run: cat metrics.txt
 
-      # Step 6: Generate and send the report
+      # Step 6: Generate and Send Report
       - name: Generate and Send Report
         run: |
           cat metrics.txt >> report.md
