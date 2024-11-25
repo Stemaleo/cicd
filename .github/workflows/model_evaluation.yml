@@ -20,15 +20,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 3: Install CML using Iterative's setup-cml action
-      - name: Set up CML
-        uses: iterative/setup-cml@v2
+      # Step 3: Explicitly install CML CLI using npm
+      - name: Install CML
+        run: npm install -g @iterative/cml
 
       # Step 4: Run the model test script
       - name: Run Model Training
         run: python wine_linear_regression_test.py
 
-      # Step 5: Generate and post metrics report
+      # Step 5: Generate and Post Metrics
       - name: Generate and Post Metrics
         run: |
           cat metrics.txt >> report.md
