@@ -28,6 +28,8 @@ jobs:
 
       # Step 5: Generate report and post comment
       - name: Generate report and post comment
+        env:
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           cat metrics.txt >> report.md
           cml-send-comment report.md
